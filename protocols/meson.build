@@ -1,22 +1,24 @@
 wayland_protocols_dir = wayland_protocols.get_variable('pkgdatadir')
 wayland_scanner = find_program('wayland-scanner')
 
-wayland_scanner_code = generator(
-  wayland_scanner,
-  output: '@BASENAME@-protocol.c',
-  arguments: ['private-code', '@INPUT@', '@OUTPUT@'],
-)
-wayland_scanner_client = generator(
-  wayland_scanner,
-  output: '@BASENAME@-client-protocol.h',
-  arguments: ['client-header', '@INPUT@', '@OUTPUT@'],
-)
-
 protocols_src = []
-foreach p : [
+protocols_headers = []
+
+foreach protocol : [
   'wlr-layer-shell-unstable-v1.xml',
   wayland_protocols_dir / 'stable/xdg-shell/xdg-shell.xml',
 ]
-  protocols_src += wayland_scanner_code.process(p)
-  protocols_src += wayland_scanner_client.process(p)
+  protocols_src += custom_target(
+    protocol.underscorify() + '-private-code',
+    output: '@BASENAME@.c',
+    input: protocol,
+    command: [wayland_scanner, 'private-code', '@INPUT@', '@OUTPUT@']
+  )
+
+  protocols_src += custom_target(
+    protocol.underscorify() + '-client-header',
+    output: '@BASENAME@.h',
+    input: protocol,
+    command: [wayland_scanner, 'client-header', '@INPUT@', '@OUTPUT@']
+  )
 endforeach

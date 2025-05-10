@@ -30,6 +30,10 @@ bool init_wayland(struct wayback_state *state) {
         fprintf(stderr, "err: Wayland shared memory not found.\n");
         return false;
     }
+    if (state->zwlr_layer_shell == NULL) {
+        fprintf(stderr, "err: Wayland layer shell not found.\n");
+        return false;
+    }
 
     return true;
 }

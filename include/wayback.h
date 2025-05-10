@@ -3,16 +3,20 @@
 
 #include <stdbool.h>
 #include <wayland-client.h>
+#include <wlr-layer-shell-unstable-v1.h>
 
 /* Physical output and properties */
 struct wayback_output {
     uint32_t wl_name;
     struct wl_output *wl_output;
     char *make, *model;
+
     uint32_t width, height;
     int32_t scale;
+
     bool configured;
-    struct wl_list link; /* wayback_state.outputs */
+
+    struct wl_list link;
 };
 
 /* Global application state */
@@ -21,7 +25,8 @@ struct wayback_state {
     struct wl_registry *wl_registry;
     struct wl_compositor *wl_compositor;
     struct wl_shm *wl_shm;
-    struct wl_list outputs;
+    struct wl_list outputs; /* struct wayback_output::link */
+    struct zwlr_layer_shell_v1 *zwlr_layer_shell;
     bool running;
     int ret;
 };

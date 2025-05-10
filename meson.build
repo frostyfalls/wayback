@@ -10,6 +10,8 @@ project(
   ],
 )
 
+add_project_arguments('-D_POSIX_C_SOURCE=200809L', language: 'c')
+
 version = '"@0@"'.format(meson.project_version())
 git = find_program('git', required: false, native: true)
 if git.found()
@@ -35,6 +37,7 @@ wayback_src = files(
   'wayland.c',
 )
 wayback_src += protocols_src
+wayback_src += protocols_headers
 
 wayback_deps = [
   wayland_client,

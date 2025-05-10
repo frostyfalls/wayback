@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <wayland-client.h>
+#include <wlr-layer-shell-unstable-v1.h>
 
 #include "registry.h"
 #include "wayback.h"
@@ -9,6 +11,7 @@
 #define WL_COMPOSITOR_VERSION 3
 #define WL_OUTPUT_VERSION 3
 #define WL_SHM_VERSION 1
+#define ZWLR_LAYER_SHELL_VERSION 2
 
 static void handle_global(void *data, struct wl_registry *registry, uint32_t name, const char *interface, uint32_t version) {
     (void)version;
@@ -24,6 +27,8 @@ static void handle_global(void *data, struct wl_registry *registry, uint32_t nam
         wl_list_insert(&state->outputs, &output->link);
     } else if (strcmp(interface, wl_shm_interface.name) == 0) {
         state->wl_shm = wl_registry_bind(registry, name, &wl_shm_interface, WL_SHM_VERSION);
+    } else if (strcmp(interface, zwlr_layer_shell_v1_interface.name) == 0) {
+        state->zwlr_layer_shell = wl_registry_bind(registry, name, &zwlr_layer_shell_v1_interface, ZWLR_LAYER_SHELL_VERSION);
     }
 }
 
