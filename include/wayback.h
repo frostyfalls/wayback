@@ -5,6 +5,16 @@
 #include <wayland-client.h>
 #include <wlr-layer-shell-unstable-v1.h>
 
+struct wayback_buffer {
+    struct wl_buffer *wl_buffer;
+    void *pool_data;
+    size_t pool_size;
+};
+
+struct wayback_output_config {
+    uint32_t color;
+};
+
 /* Physical output and properties */
 struct wayback_output {
     uint32_t wl_name;
@@ -17,6 +27,8 @@ struct wayback_output {
 
     struct wl_surface *wl_surface;
     struct zwlr_layer_surface_v1 *zwlr_layer_surface;
+
+    struct wayback_output_config config;
 
     struct wayback_state *state;
     bool configured;
@@ -35,12 +47,6 @@ struct wayback_state {
     int ret;
 };
 
-struct wayback_buffer {
-    struct wl_buffer *wl_buffer;
-    void *pool_data;
-    size_t pool_size;
-};
-
 /* buffer.c:
  * Buffers. */
 bool create_buffer(struct wayback_buffer *buffer, struct wl_shm *shm, uint32_t width, uint32_t height, uint32_t format);
@@ -48,6 +54,7 @@ void destroy_buffer(struct wayback_buffer *buffer);
 
 /* output.c:
  * Output management, mostly related to wayback_output structs. */
+bool parse_color(const char *color_string, struct wayback_output_config *config);
 void destroy_wayback_output_layer(struct wayback_output *output);
 void destroy_wayback_output(struct wayback_output *output);
 

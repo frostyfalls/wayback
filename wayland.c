@@ -22,16 +22,8 @@ bool init_wayland(struct wayback_state *state) {
     wl_registry_add_listener(state->wl_registry, registry_listener(), state);
     wl_display_roundtrip(state->wl_display);
 
-    if (state->wl_compositor == NULL) {
-        fprintf(stderr, "err: Wayland compositor not found.\n");
-        return false;
-    }
-    if (state->wl_shm == NULL) {
-        fprintf(stderr, "err: Wayland shared memory not found.\n");
-        return false;
-    }
-    if (state->zwlr_layer_shell == NULL) {
-        fprintf(stderr, "err: Wayland layer shell not found.\n");
+    if (state->wl_compositor == NULL || state->wl_shm == NULL || state->zwlr_layer_shell == NULL) {
+        fprintf(stderr, "err: Compositor unsupported.\n");
         return false;
     }
 

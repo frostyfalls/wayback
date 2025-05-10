@@ -8,8 +8,7 @@
 /* TODO: Split render into 2 functions: draw and render */
 void render_surface(const struct wayback_output *output) {
     struct wayback_buffer buffer;
-
-    if (!create_buffer(&buffer, output->state->wl_shm, output->render_width * output->scale, output->render_height *output->scale, WL_SHM_FORMAT_XRGB8888)) {
+    if (!create_buffer(&buffer, output->state->wl_shm, output->render_width * output->scale, output->render_height * output->scale, WL_SHM_FORMAT_XRGB8888)) {
         return;
     }
 
@@ -28,7 +27,7 @@ void render_surface(const struct wayback_output *output) {
 
     wl_surface_set_buffer_scale(output->wl_surface, output->scale);
     wl_surface_attach(output->wl_surface, buffer.wl_buffer, 0, 0);
-    wl_surface_damage_buffer(output->wl_surface, 0, 0, output->width * output->scale, output->height * output->scale);
+    wl_surface_damage_buffer(output->wl_surface, 0, 0, output->render_width * output->scale, output->render_height * output->scale);
     wl_surface_commit(output->wl_surface);
 
     destroy_buffer(&buffer);

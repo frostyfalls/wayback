@@ -2,6 +2,15 @@
 
 #include "wayback.h"
 
+bool parse_color(const char *color_string, struct wayback_output_config *config) {
+    uint32_t color_uint = strtol(color_string, NULL, 16);
+    if (color_uint == 0) {
+        return false;
+    }
+    config->color = color_uint;
+    return true;
+}
+
 void destroy_wayback_output_layer(struct wayback_output *output) {
     if (output->zwlr_layer_surface != NULL) {
         zwlr_layer_surface_v1_destroy(output->zwlr_layer_surface);

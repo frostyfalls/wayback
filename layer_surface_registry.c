@@ -1,5 +1,4 @@
 #include <wayland-client.h>
-#include <stdio.h>
 #include <wlr-layer-shell-unstable-v1.h>
 
 #include "layer_surface.h"
