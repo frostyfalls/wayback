@@ -13,3 +13,7 @@ ninja -C build/ install
 - [swaybg][swaybg] for Wayland client code structure help
 
 [swaybg]: https://github.com/swaywm/swaybg
+
+## License
+
+Unlicense, see LICENSE for more information.
