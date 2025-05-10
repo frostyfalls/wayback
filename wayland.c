@@ -45,14 +45,18 @@ void finish_wayland(struct wayback_state *state) {
     }
     if (state->wl_compositor != NULL) {
         wl_compositor_destroy(state->wl_compositor);
+        state->wl_compositor = NULL;
     }
     if (state->wl_shm != NULL) {
         wl_shm_destroy(state->wl_shm);
+        state->wl_shm = NULL;
     }
     if (state->wl_registry != NULL) {
         wl_registry_destroy(state->wl_registry);
+        state->wl_registry = NULL;
     }
     if (state->wl_display != NULL) {
         wl_display_disconnect(state->wl_display);
+        state->wl_display = NULL;
     }
 }

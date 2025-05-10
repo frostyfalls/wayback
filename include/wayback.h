@@ -13,17 +13,13 @@ struct wayback_output {
 
     uint32_t width, height;
     int32_t scale;
+    uint32_t render_width, render_height;
 
     struct wl_surface *wl_surface;
     struct zwlr_layer_surface_v1 *zwlr_layer_surface;
 
     struct wayback_state *state;
-
     bool configured;
-    bool needs_ack;
-    uint32_t configure_serial;
-    bool dirty;
-
     struct wl_list link;
 };
 
@@ -39,8 +35,20 @@ struct wayback_state {
     int ret;
 };
 
+struct wayback_buffer {
+    struct wl_buffer *wl_buffer;
+    void *pool_data;
+    size_t pool_size;
+};
+
+/* buffer.c:
+ * Buffers. */
+bool create_buffer(struct wayback_buffer *buffer, struct wl_shm *shm, uint32_t width, uint32_t height, uint32_t format);
+void destroy_buffer(struct wayback_buffer *buffer);
+
 /* output.c:
  * Output management, mostly related to wayback_output structs. */
+void destroy_wayback_output_layer(struct wayback_output *output);
 void destroy_wayback_output(struct wayback_output *output);
 
 /* wayland.c:

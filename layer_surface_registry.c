@@ -1,26 +1,31 @@
 #include <wayland-client.h>
+#include <stdio.h>
 #include <wlr-layer-shell-unstable-v1.h>
 
+#include "layer_surface.h"
 #include "wayback.h"
 
 static void layer_surface_configure(void *data, struct zwlr_layer_surface_v1 *surface, uint32_t serial, uint32_t width, uint32_t height) {
-    (void)surface;
     struct wayback_output *output = data;
 
-    output->width = width;
-    output->height = height;
-    output->needs_ack = true;
-    output->dirty = true;
-    output->configure_serial = serial;
-    zwlr_layer_surface_v1_ack_configure(output->zwlr_layer_surface, serial);
-    wl_surface_commit(output->wl_surface);
+    zwlr_layer_surface_v1_ack_configure(surface, serial);
+
+    if (output->configured && output->render_width == width && output->render_height == height) {
+        wl_surface_commit(output->wl_surface);
+        return;
+    }
+
+    output->render_width = width;
+    output->render_height = height;
+    output->configured = true;
+    render_surface(output);
 }
 
 static void layer_surface_closed(void *data, struct zwlr_layer_surface_v1 *surface) {
     (void)surface;
     struct wayback_output *output = data;
 
-    destroy_wayback_output(output);
+    destroy_wayback_output_layer(output);
 }
 
 static const struct zwlr_layer_surface_v1_listener listener = {

@@ -36,6 +36,7 @@ static void output_geometry(void *data, struct wl_output *wl_output, int32_t x, 
         }
         output->model = new_model;
     }
+
 }
 
 static void output_mode(void *data, struct wl_output *wl_output, uint32_t flags, int32_t width, int32_t height, int32_t refresh) {
@@ -55,14 +56,11 @@ static void output_done(void *data, struct wl_output *wl_output) {
     (void)wl_output;
     struct wayback_output *output = data;
 
-    /* TODO: Implement and use custom logging functions */
     printf("Done configuring output:\n"
            "  - Name: %s %s\n"
            "  - Resolution: %dx%d\n"
            "  - Scale: %d\n",
         output->make, output->model, output->width, output->height, output->scale);
-
-    create_layer_surface(output);
 }
 
 static void output_scale(void *data, struct wl_output *wl_output, int32_t factor) {
@@ -71,7 +69,10 @@ static void output_scale(void *data, struct wl_output *wl_output, int32_t factor
     struct wayback_output *output = data;
 
     output->scale = factor;
-    output->dirty = true;
+
+    if (output->configured) {
+        render_surface(output);
+    }
 }
 
 static const struct wl_output_listener listener = {
