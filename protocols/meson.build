@@ -14,6 +14,7 @@ wayland_scanner_client = generator(
 
 protocols_src = []
 foreach p : [
+  'wlr-layer-shell-unstable-v1.xml',
   wayland_protocols_dir / 'stable/xdg-shell/xdg-shell.xml',
 ]
   protocols_src += wayland_scanner_code.process(p)
