@@ -15,6 +15,15 @@ ninja -C build/ install
 - [hello-wayland][hello-wayland] for rendering code
 - [wayland-book][wayland-book] for general Wayland architecture help
 
+## Goals
+
+- [ ] Support user-provided input
+- [ ] Support images (perhaps with Cairo or per-filetype libraries + Pixman)
+- [ ] Support fractional scaling
+- [ ] Support reloading the current buffer (change image or color)
+- [ ] Support multiple outputs and reload on change
+    - Might already work, needs testing
+
 ## License
 
 Unlicense, see LICENSE for more information.
