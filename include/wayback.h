@@ -14,7 +14,15 @@ struct wayback_output {
     uint32_t width, height;
     int32_t scale;
 
+    struct wl_surface *wl_surface;
+    struct zwlr_layer_surface_v1 *zwlr_layer_surface;
+
+    struct wayback_state *state;
+
     bool configured;
+    bool needs_ack;
+    uint32_t configure_serial;
+    bool dirty;
 
     struct wl_list link;
 };
@@ -33,7 +41,7 @@ struct wayback_state {
 
 /* output.c:
  * Output management, mostly related to wayback_output structs. */
-void destroy_output(struct wayback_output *output);
+void destroy_wayback_output(struct wayback_output *output);
 
 /* wayland.c:
  * Wayland global management, like registries and the compositor. */

@@ -15,7 +15,7 @@ static const struct option long_options[] = {
     {0,         0,           0,    0  },
 };
 
-void parse_options(int argc, char *argv[]) {
+void parse_command_line(int argc, char *argv[]) {
     int c;
     while ((c = getopt_long(argc, argv, ":hV", long_options, NULL)) != -1) {
         switch (c) {
@@ -38,7 +38,7 @@ void parse_options(int argc, char *argv[]) {
 }
 
 int main(int argc, char *argv[]) {
-    parse_options(argc, argv);
+    parse_command_line(argc, argv);
 
     struct wayback_state state = {
         .ret = EXIT_SUCCESS,
@@ -49,8 +49,21 @@ int main(int argc, char *argv[]) {
         return state.ret;
     }
 
-    while (state.running && wl_display_dispatch(state.wl_display) != -1)
-        ;
+    while (state.running && wl_display_dispatch(state.wl_display) != -1) {
+        // struct wayback_output *output;
+        // wl_list_for_each(output, &state.outputs, link) {
+        //     if (output->needs_ack) {
+        //         output->needs_ack = false;
+        //         // zwlr_layer_surface_v1_ack_configure(output->zwlr_layer_surface, output->configure_serial);
+        //     }
+        // }
+        // wl_list_for_each(output, &state.outputs, link) {
+        //     // if (output->dirty) {
+        //     //     output->dirty = false;
+        //     //
+        //     // }
+        // }
+    }
 
     return state.ret;
 }

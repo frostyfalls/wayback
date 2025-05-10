@@ -23,6 +23,8 @@ static void handle_global(void *data, struct wl_registry *registry, uint32_t nam
         struct wayback_output *output = calloc(1, sizeof(struct wayback_output));
         output->wl_name = name;
         output->wl_output = wl_registry_bind(registry, name, &wl_output_interface, WL_OUTPUT_VERSION);
+        output->state = state;
+        output->needs_ack = true;
         wl_output_add_listener(output->wl_output, output_listener(), output);
         wl_list_insert(&state->outputs, &output->link);
     } else if (strcmp(interface, wl_shm_interface.name) == 0) {
@@ -39,7 +41,7 @@ static void handle_global_remove(void *data, struct wl_registry *registry, uint3
     struct wayback_output *output, *tmp;
     wl_list_for_each_safe(output, tmp, &state->outputs, link) {
         if (output->wl_name == name) {
-            destroy_output(output);
+            destroy_wayback_output(output);
             break;
         }
     }

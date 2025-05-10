@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <wayland-client.h>
 
+#include "layer_surface.h"
 #include "wayback.h"
 
 static void output_geometry(void *data, struct wl_output *wl_output, int32_t x, int32_t y, int32_t width_mm, int32_t height_mm, int32_t subpixel, const char *make, const char *model, int32_t transform) {
@@ -60,6 +61,8 @@ static void output_done(void *data, struct wl_output *wl_output) {
            "  - Resolution: %dx%d\n"
            "  - Scale: %d\n",
         output->make, output->model, output->width, output->height, output->scale);
+
+    create_layer_surface(output);
 }
 
 static void output_scale(void *data, struct wl_output *wl_output, int32_t factor) {
@@ -68,6 +71,7 @@ static void output_scale(void *data, struct wl_output *wl_output, int32_t factor
     struct wayback_output *output = data;
 
     output->scale = factor;
+    output->dirty = true;
 }
 
 static const struct wl_output_listener listener = {

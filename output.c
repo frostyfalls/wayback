@@ -2,7 +2,7 @@
 
 #include "wayback.h"
 
-void destroy_output(struct wayback_output *output) {
+void destroy_wayback_output(struct wayback_output *output) {
     if (output == NULL) {
         return;
     }

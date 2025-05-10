@@ -31,8 +31,11 @@ wayback_inc = include_directories('include')
 
 wayback_src = files(
   'global_registry.c',
+  'layer_surface.c',
+  'layer_surface_registry.c',
   'output.c',
   'output_registry.c',
+  'shm.c',
   'wayback.c',
   'wayland.c',
 )

@@ -41,7 +41,7 @@ bool init_wayland(struct wayback_state *state) {
 void finish_wayland(struct wayback_state *state) {
     struct wayback_output *output, *tmp;
     wl_list_for_each_safe(output, tmp, &state->outputs, link) {
-        destroy_output(output);
+        destroy_wayback_output(output);
     }
     if (state->wl_compositor != NULL) {
         wl_compositor_destroy(state->wl_compositor);
