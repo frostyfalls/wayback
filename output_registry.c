@@ -5,10 +5,7 @@
 
 #include "wayback.h"
 
-static void output_geometry(void *data, struct wl_output *wl_output, int32_t x,
-                            int32_t y, int32_t width_mm, int32_t height_mm,
-                            int32_t subpixel, const char *make,
-                            const char *model, int32_t transform) {
+static void output_geometry(void *data, struct wl_output *wl_output, int32_t x, int32_t y, int32_t width_mm, int32_t height_mm, int32_t subpixel, const char *make, const char *model, int32_t transform) {
     (void)wl_output;
     (void)x;
     (void)y;
@@ -39,8 +36,7 @@ static void output_geometry(void *data, struct wl_output *wl_output, int32_t x,
     }
 }
 
-static void output_mode(void *data, struct wl_output *wl_output, uint32_t flags,
-                        int32_t width, int32_t height, int32_t refresh) {
+static void output_mode(void *data, struct wl_output *wl_output, uint32_t flags, int32_t width, int32_t height, int32_t refresh) {
     (void)wl_output;
     (void)refresh;
 
@@ -62,12 +58,10 @@ static void output_done(void *data, struct wl_output *wl_output) {
            "  - Name: %s %s\n"
            "  - Resolution: %dx%d\n"
            "  - Scale: %d\n",
-           output->make, output->model, output->width, output->height,
-           output->scale);
+        output->make, output->model, output->width, output->height, output->scale);
 }
 
-static void output_scale(void *data, struct wl_output *wl_output,
-                         int32_t factor) {
+static void output_scale(void *data, struct wl_output *wl_output, int32_t factor) {
     (void)data;
     (void)wl_output;
     struct wayback_output *output = data;

@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <wayland-client.h>
 
+/* Physical output and properties */
 struct wayback_output {
     uint32_t wl_name;
     struct wl_output *wl_output;
@@ -14,6 +15,7 @@ struct wayback_output {
     struct wl_list link; /* wayback_state.outputs */
 };
 
+/* Global application state */
 struct wayback_state {
     struct wl_display *wl_display;
     struct wl_registry *wl_registry;

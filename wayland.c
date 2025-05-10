@@ -11,7 +11,6 @@ bool init_wayland(struct wayback_state *state) {
         fprintf(stderr, "err: Failed to connect to Wayland display.\n");
         return false;
     }
-
     state->wl_registry = wl_display_get_registry(state->wl_display);
     if (state->wl_registry == NULL) {
         fprintf(stderr, "err: Failed to get display registry.\n");

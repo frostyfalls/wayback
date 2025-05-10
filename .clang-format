@@ -1,3 +1,5 @@
 AlignArrayOfStructures: Left
 AllowShortFunctionsOnASingleLine: Empty
+ColumnLimit: 0
 IndentWidth: 4
+AlignAfterOpenBracket: DontAlign

@@ -27,7 +27,7 @@ void parse_options(int argc, char *argv[]) {
             exit(EXIT_SUCCESS);
         case ':':
             fprintf(stderr, "%s: option requires an argument -- '%c'\n",
-                    argv[0], optopt);
+                argv[0], optopt);
             fprintf(stderr, wayback_usage, argv[0]);
             exit(EXIT_FAILURE);
         case '?':
