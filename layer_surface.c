@@ -1,3 +1,5 @@
+/* SPDX-License-Identifier: Unlicense */
+
 #include <wayland-client.h>
 #include <wlr-layer-shell-unstable-v1.h>
 

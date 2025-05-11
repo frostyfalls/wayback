@@ -1,3 +1,5 @@
+/* SPDX-License-Identifier: Unlicense */
+
 #include <stdio.h>
 #include <wayland-client.h>
 

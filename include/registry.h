@@ -1,3 +1,5 @@
+/* SPDX-License-Identifier: Unlicense */
+
 #ifndef REGISTRY_H
 #define REGISTRY_H
 

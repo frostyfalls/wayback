@@ -1,3 +1,5 @@
+/* SPDX-License-Identifier: Unlicense */
+
 #ifndef WAYBACK_H
 #define WAYBACK_H
 

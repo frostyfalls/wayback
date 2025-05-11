@@ -1,3 +1,5 @@
+/* SPDX-License-Identifier: Unlicense */
+
 #include <wlr-layer-shell-unstable-v1.h>
 
 #include "wayback.h"

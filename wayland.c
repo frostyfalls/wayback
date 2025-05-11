@@ -1,3 +1,5 @@
+/* SPDX-License-Identifier: Unlicense */
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <tllist.h>
