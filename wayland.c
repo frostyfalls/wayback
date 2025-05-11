@@ -1,6 +1,8 @@
+#include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
+#include <tllist.h>
 #include <wayland-client.h>
+#include <wlr-layer-shell-unstable-v1.h>
 
 #include "registry.h"
 #include "wayback.h"
@@ -8,22 +10,21 @@
 bool init_wayland(struct wayback_state *state) {
     state->wl_display = wl_display_connect(NULL);
     if (state->wl_display == NULL) {
-        fprintf(stderr, "err: Failed to connect to Wayland display.\n");
+        fprintf(stderr, "failed to connect to wayland display\n");
         return false;
     }
     state->wl_registry = wl_display_get_registry(state->wl_display);
     if (state->wl_registry == NULL) {
-        fprintf(stderr, "err: Failed to get display registry.\n");
+        fprintf(stderr, "failed to get display registry\n");
         return false;
     }
-
-    wl_list_init(&state->outputs);
 
     wl_registry_add_listener(state->wl_registry, registry_listener(), state);
     wl_display_roundtrip(state->wl_display);
 
-    if (state->wl_compositor == NULL || state->wl_shm == NULL || state->zwlr_layer_shell == NULL) {
-        fprintf(stderr, "err: Compositor unsupported.\n");
+    if (state->wl_compositor == NULL || state->wl_shm == NULL ||
+        state->zwlr_layer_shell == NULL) {
+        fprintf(stderr, "unsupported compositor\n");
         return false;
     }
 
@@ -31,9 +32,13 @@ bool init_wayland(struct wayback_state *state) {
 }
 
 void finish_wayland(struct wayback_state *state) {
-    struct wayback_output *output, *tmp;
-    wl_list_for_each_safe(output, tmp, &state->outputs, link) {
-        destroy_wayback_output(output);
+    tll_foreach(state->outputs, it) {
+        destroy_output(it->item);
+    }
+    tll_free(state->outputs);
+    if (state->zwlr_layer_shell != NULL) {
+        zwlr_layer_shell_v1_destroy(state->zwlr_layer_shell);
+        state->zwlr_layer_shell = NULL;
     }
     if (state->wl_compositor != NULL) {
         wl_compositor_destroy(state->wl_compositor);

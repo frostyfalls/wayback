@@ -5,8 +5,9 @@ protocols_src = []
 protocols_headers = []
 
 foreach protocol : [
-  'wlr-layer-shell-unstable-v1.xml',
   wayland_protocols_dir / 'stable/xdg-shell/xdg-shell.xml',
+  wayland_protocols_dir / 'stable/viewporter/viewporter.xml',
+  'wlr-layer-shell-unstable-v1.xml',
 ]
   protocols_src += custom_target(
     protocol.underscorify() + '-private-code',

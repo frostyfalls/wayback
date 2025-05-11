@@ -22,6 +22,7 @@ if git.found()
 endif
 add_project_arguments('-DWAYBACK_VERSION=@0@'.format(version), language: 'c')
 
+tllist = dependency('tllist')
 wayland_client = dependency('wayland-client')
 wayland_protocols = dependency('wayland-protocols')
 
@@ -33,16 +34,17 @@ wayback_src = files(
   'buffer.c',
   'global_registry.c',
   'layer_surface.c',
-  'layer_surface_registry.c',
   'output.c',
   'output_registry.c',
   'wayback.c',
   'wayland.c',
+  'zwlr_layer_surface_registry.c',
 )
 wayback_src += protocols_src
 wayback_src += protocols_headers
 
 wayback_deps = [
+  tllist,
   wayland_client,
   wayland_protocols,
 ]

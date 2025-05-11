@@ -16,7 +16,8 @@ static int32_t create_shm_file(void) {
         clock_gettime(CLOCK_MONOTONIC, &ts);
         pid_t pid = getpid();
         char name[32];
-        snprintf(name, sizeof(name), "/wayback-%x-%x", pid, (uint32_t)ts.tv_nsec);
+        snprintf(name, sizeof(name), "/wayback-%x-%x", pid,
+                 (uint32_t)ts.tv_nsec);
 
         int fd = shm_open(name, O_RDWR | O_CREAT | O_EXCL, 0600);
         if (fd >= 0) {
@@ -28,7 +29,8 @@ static int32_t create_shm_file(void) {
     return -1;
 }
 
-bool create_buffer(struct wayback_buffer *buffer, struct wl_shm *shm, uint32_t width, uint32_t height, uint32_t format) {
+bool create_buffer(struct wayback_buffer *buffer, struct wl_shm *shm,
+                   uint32_t width, uint32_t height, uint32_t format) {
     uint32_t stride = width * 4;
     uint32_t size = height * stride;
 
@@ -40,7 +42,8 @@ bool create_buffer(struct wayback_buffer *buffer, struct wl_shm *shm, uint32_t w
 
     void *data = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
     struct wl_shm_pool *pool = wl_shm_create_pool(shm, fd, size);
-    buffer->wl_buffer = wl_shm_pool_create_buffer(pool, 0, width, height, stride, format);
+    buffer->wl_buffer =
+        wl_shm_pool_create_buffer(pool, 0, width, height, stride, format);
     wl_shm_pool_destroy(pool);
     close(fd);
 
