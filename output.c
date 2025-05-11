@@ -22,6 +22,7 @@ void destroy_output(struct wayback_output *output) {
         wl_output_release(output->wl_output);
         output->wl_output = NULL;
     }
+    destroy_output_layer(output);
     free(output->make);
     free(output->model);
     free(output->name);

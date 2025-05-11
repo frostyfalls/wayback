@@ -56,6 +56,7 @@ static void registry_global_remove(void *data, struct wl_registry *registry,
     tll_foreach(state->outputs, it) {
         if (it->item->wl_name == name) {
             destroy_output(it->item);
+            tll_remove(state->outputs, it);
             break;
         }
     }
