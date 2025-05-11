@@ -50,6 +50,9 @@ struct wayback_buffer *create_buffer(struct wl_shm *shm, uint32_t width,
                                      uint32_t height);
 void destroy_buffer(struct wayback_buffer *buffer);
 
+/* global_registry.c */
+const struct wl_registry_listener *registry_listener(void);
+
 /* layer_surface.c */
 void create_layer_surface(struct wayback_state *state,
                           struct wayback_output *output);
@@ -59,8 +62,14 @@ void render_surface(const struct wayback_output *output);
 void destroy_output_layer(struct wayback_output *output);
 void destroy_output(struct wayback_output *output);
 
+/* output_registry.c */
+const struct wl_output_listener *output_listener(void);
+
 /* wayland.c */
 bool init_wayland(struct wayback_state *state);
 void finish_wayland(struct wayback_state *state);
+
+/* zwlr_layer_surface_registry.c */
+const struct zwlr_layer_surface_v1_listener *zwlr_layer_surface_listener(void);
 
 #endif /* WAYBACK_H */
