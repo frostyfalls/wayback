@@ -26,6 +26,7 @@ add_project_arguments([
 ], language: 'c')
 
 tllist = dependency('tllist')
+pixman = dependency('pixman-1')
 wayland_client = dependency('wayland-client')
 wayland_protocols = dependency('wayland-protocols')
 
@@ -48,6 +49,7 @@ wayback_src += protocols_headers
 
 wayback_deps = [
   tllist,
+  pixman,
   wayland_client,
   wayland_protocols,
 ]

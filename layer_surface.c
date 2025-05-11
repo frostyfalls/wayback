@@ -39,14 +39,11 @@ void create_layer_surface(struct wayback_state *state,
 }
 
 void render_surface(const struct wayback_output *output) {
-    struct wayback_buffer buffer;
-    if (!create_buffer(&buffer, output->wl_shm, output->width * output->scale,
-                       output->height * output->scale,
-                       WL_SHM_FORMAT_XRGB8888)) {
-        return;
-    }
+    struct wayback_buffer *buffer =
+        create_buffer(output->wl_shm, output->width * output->scale,
+                      output->height * output->scale);
 
-    uint32_t *pool_data_uint = (uint32_t *)buffer.pool_data;
+    uint32_t *pool_data_uint = (uint32_t *)buffer->pool_data;
     uint32_t *pixels = &pool_data_uint[0];
     for (uint32_t y = 0; y < output->height; y++) {
         for (uint32_t x = 0; x < output->width; x++) {
@@ -56,11 +53,11 @@ void render_surface(const struct wayback_output *output) {
     }
 
     wl_surface_set_buffer_scale(output->wl_surface, output->scale);
-    wl_surface_attach(output->wl_surface, buffer.wl_buffer, 0, 0);
+    wl_surface_attach(output->wl_surface, buffer->wl_buffer, 0, 0);
     wl_surface_damage_buffer(output->wl_surface, 0, 0,
                              output->width * output->scale,
                              output->height * output->scale);
     wl_surface_commit(output->wl_surface);
 
-    destroy_buffer(&buffer);
+    destroy_buffer(buffer);
 }

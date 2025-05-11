@@ -44,8 +44,8 @@ struct wayback_state {
 };
 
 /* buffer.c */
-bool create_buffer(struct wayback_buffer *buffer, struct wl_shm *shm,
-                   uint32_t width, uint32_t height, uint32_t format);
+struct wayback_buffer *create_buffer(struct wl_shm *shm, uint32_t width,
+                                     uint32_t height);
 void destroy_buffer(struct wayback_buffer *buffer);
 
 /* layer_surface.c */

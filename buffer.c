@@ -29,8 +29,9 @@ static int32_t create_shm_file(void) {
     return -1;
 }
 
-bool create_buffer(struct wayback_buffer *buffer, struct wl_shm *shm,
-                   uint32_t width, uint32_t height, uint32_t format) {
+struct wayback_buffer *create_buffer(struct wl_shm *shm, uint32_t width,
+                                     uint32_t height) {
+    struct wayback_buffer *buffer = calloc(1, sizeof(struct wayback_buffer));
     uint32_t stride = width * 4;
     uint32_t size = height * stride;
 
@@ -42,15 +43,18 @@ bool create_buffer(struct wayback_buffer *buffer, struct wl_shm *shm,
 
     void *data = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
     struct wl_shm_pool *pool = wl_shm_create_pool(shm, fd, size);
-    buffer->wl_buffer =
-        wl_shm_pool_create_buffer(pool, 0, width, height, stride, format);
+    buffer->wl_buffer = wl_shm_pool_create_buffer(
+        pool, 0, width, height, stride, WL_SHM_FORMAT_XRGB8888);
+
     wl_shm_pool_destroy(pool);
+    pool = NULL;
     close(fd);
+    fd = -1;
 
     buffer->pool_size = size;
     buffer->pool_data = data;
 
-    return true;
+    return buffer;
 }
 
 void destroy_buffer(struct wayback_buffer *buffer) {
