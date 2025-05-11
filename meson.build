@@ -10,17 +10,20 @@ project(
   ],
 )
 
-add_project_arguments('-D_POSIX_C_SOURCE=200809L', language: 'c')
+git = find_program('git', required: false, native: true)
 
 version = '"@0@"'.format(meson.project_version())
-git = find_program('git', required: false, native: true)
 if git.found()
   git_commit = run_command([git, 'describe', '--dirty'], check: false)
   if git_commit.returncode() == 0
     version = '"@0@"'.format(git_commit.stdout().strip())
   endif
 endif
-add_project_arguments('-DWAYBACK_VERSION=@0@'.format(version), language: 'c')
+
+add_project_arguments([
+  '-D_POSIX_C_SOURCE=200809L',
+  '-DWAYBACK_VERSION=@0@'.format(version),
+], language: 'c')
 
 tllist = dependency('tllist')
 wayland_client = dependency('wayland-client')
