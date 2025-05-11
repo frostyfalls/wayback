@@ -1,8 +1,13 @@
+#include <stdio.h>
 #include <wayland-client.h>
 
 #include "wayback.h"
 
-int main(void) {
+int main(int argc, char *argv[]) {
+    (void)argc;
+
+    printf("%s v" WAYBACK_VERSION "\n", argv[0]);
+
     struct wayback_state state = {
         .running = true,
         .ret = EXIT_SUCCESS,
