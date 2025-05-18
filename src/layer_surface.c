@@ -46,6 +46,7 @@ void render_surface(const struct wayback_output *output) {
         create_buffer(output->wl_shm, output->width * output->scale,
                       output->height * output->scale);
 
+    /* TODO: Replace irreplaceable checkerboard pattern with image reading */
     uint32_t *pool_data_uint = (uint32_t *)buffer->pool_data;
     uint32_t *pixels = &pool_data_uint[0];
     for (uint32_t y = 0; y < output->height; y++) {
