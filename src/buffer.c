@@ -4,12 +4,13 @@
 #include <fcntl.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/mman.h>
 #include <time.h>
 #include <unistd.h>
 #include <wayland-client.h>
 
-#include "wayback.h"
+#include "buffer.h"
 
 static int32_t create_shm_file(void) {
     uint8_t retries = 8;

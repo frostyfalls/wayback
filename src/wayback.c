@@ -1,11 +1,11 @@
 /* SPDX-License-Identifier: Unlicense */
 
-#include <stdbool.h>
 #include <stdio.h>
-#include <tllist.h>
 #include <wayland-client.h>
 #include <wlr-layer-shell-unstable-v1.h>
 
+#include "output.h"
+#include "registry_listener.h"
 #include "wayback.h"
 
 bool init_wayland(struct wayback_state *state) {
@@ -57,4 +57,22 @@ void finish_wayland(struct wayback_state *state) {
         wl_display_disconnect(state->wl_display);
         state->wl_display = NULL;
     }
+}
+
+int main(int argc, char *argv[]) {
+    (void)argc;
+
+    printf("%s v" WAYBACK_VERSION "\n", argv[0]);
+
+    struct wayback_state state = {.running = false, .ret = EXIT_FAILURE};
+    if (init_wayland(&state)) {
+        state.running = true;
+        state.ret = EXIT_SUCCESS;
+    }
+
+    while (state.running && wl_display_dispatch(state.wl_display) != -1)
+        ;
+
+    finish_wayland(&state);
+    return state.ret;
 }

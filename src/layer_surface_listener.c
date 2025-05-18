@@ -2,6 +2,8 @@
 
 #include <wlr-layer-shell-unstable-v1.h>
 
+#include "layer_surface.h"
+#include "output.h"
 #include "wayback.h"
 
 static void
@@ -39,6 +41,6 @@ static const struct zwlr_layer_surface_v1_listener listener = {
     .closed = zwlr_layer_surface_closed,
 };
 
-const struct zwlr_layer_surface_v1_listener *zwlr_layer_surface_listener(void) {
+const struct zwlr_layer_surface_v1_listener *layer_surface_listener(void) {
     return &listener;
 }

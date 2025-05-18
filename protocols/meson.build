@@ -1,4 +1,4 @@
-wayland_protocols_dir = wayland_protocols.get_variable('pkgdatadir')
+wayland_protocols_dir = wayland_protocols_dep.get_variable('pkgdatadir')
 wayland_scanner = find_program('wayland-scanner')
 
 protocols_src = []
@@ -6,7 +6,6 @@ protocols_headers = []
 
 foreach protocol : [
   wayland_protocols_dir / 'stable/xdg-shell/xdg-shell.xml',
-  wayland_protocols_dir / 'stable/viewporter/viewporter.xml',
   'wlr-layer-shell-unstable-v1.xml',
 ]
   protocols_src += custom_target(
@@ -15,7 +14,6 @@ foreach protocol : [
     input: protocol,
     command: [wayland_scanner, 'private-code', '@INPUT@', '@OUTPUT@']
   )
-
   protocols_src += custom_target(
     protocol.underscorify() + '-client-header',
     output: '@BASENAME@.h',

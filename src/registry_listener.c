@@ -4,6 +4,9 @@
 #include <wayland-client.h>
 #include <wlr-layer-shell-unstable-v1.h>
 
+#include "layer_surface.h"
+#include "output.h"
+#include "output_listener.h"
 #include "wayback.h"
 
 /* Interface versions to handle */

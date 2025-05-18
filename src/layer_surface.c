@@ -3,6 +3,8 @@
 #include <wayland-client.h>
 #include <wlr-layer-shell-unstable-v1.h>
 
+#include "buffer.h"
+#include "layer_surface_listener.h"
 #include "wayback.h"
 
 /* Description to use for the layer shell(s) we create */
@@ -35,7 +37,7 @@ void create_layer_surface(struct wayback_state *state,
                                          ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT);
 
     zwlr_layer_surface_v1_add_listener(output->zwlr_layer_surface,
-                                       zwlr_layer_surface_listener(), output);
+                                       layer_surface_listener(), output);
     wl_surface_commit(output->wl_surface);
 }
 
